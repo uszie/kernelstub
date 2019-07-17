@@ -160,12 +160,12 @@ class Installer():
 
         if setup_loader:
             self.log.info('Setting up loader.conf configuration')
-            linux_line = '/EFI/{}-{}/{}-previous.efi'.format(
+            linux_line = '/EFI/{}-{}/{}.efi'.format(
                 self.opsys.name,
                 self.drive.root_uuid,
                 self.opsys.kernel_name
             )
-            initrd_line = '/EFI/{}-{}/{}-previous'.format(
+            initrd_line = '/EFI/{}-{}/{}'.format(
                 self.opsys.name,
                 self.drive.root_uuid,
                 self.opsys.initrd_name
@@ -233,6 +233,13 @@ class Installer():
     def make_loader_entry(self, title, linux, initrd, options, filename):
         """Create a systemd-boot loader entry file."""
         self.log.info('Making entry file for %s', title)
+        self.log.debug(
+            'Entry details:\n'
+            'name_pretty: %s\n'
+            'linux_line: %s\n'
+            'initrd_line: %s\n'
+            'kernel_opts: %s\n', title, linux, initrd, options
+        )
         with open('{}.conf'.format(filename), mode='w') as entry:
             entry.write('title {}\n'.format(title))
             entry.write('linux {}\n'.format(linux))
