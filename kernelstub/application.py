@@ -270,32 +270,6 @@ class Kernelstub():
         nvram = Nvram.NVRAM(opsys.name, opsys.version)
         installer = Installer.Installer(nvram, opsys, drive)
 
-        # Log some helpful information, to file and optionally console
-        info = (
-            '    OS:..................%s %s\n' %(opsys.name_pretty,opsys.version) +
-            '    Root partition:......%s\n'    % drive.root_fs +
-            '    Root FS UUID:........%s\n'    % drive.root_uuid +
-            '    ESP Path:............%s\n'    % esp_path +
-            '    ESP Partition:.......%s\n'    % drive.esp_fs +
-            '    ESP Partition #:.....%s\n'    % drive.esp_num +
-            '    NVRAM entry #:.......%s\n'    % nvram.os_entry_index +
-            '    Boot Variable #:.....%s\n'    % nvram.order_num +
-            '    Kernel Boot Options:.%s\n'    % " ".join(kernel_opts) +
-            '    Kernel Image Path:...%s\n'    % opsys.kernel_path +
-            '    Initrd Image Path:...%s\n'    % opsys.initrd_path +
-            '    Force-overwrite:.....%s\n'    % str(force))
-
-        log.info('System information: \n\n%s' % info)
-
-        if args.print_config:
-            all_config = (
-                '   ESP Location:..................%s\n' % configuration['esp_path'] +
-                '   Management Mode:...............%s\n' % configuration['manage_mode'] +
-                '   Install Loader configuration:..%s\n' % configuration['setup_loader'] +
-                '   Configuration version:.........%s\n' % configuration['config_rev'])
-            log.info('Configuration details: \n\n%s' % all_config)
-            exit(0)
-        
         # This method preserves any configuration changes that the user may have
         # made when they choose to show the boot menu. This avoids the need to 
         # parse the loader.conf file
@@ -321,6 +295,32 @@ class Kernelstub():
                 os.rename(loader_backup, loader_path)
             except FileNotFoundError:
                 log.info('No previous user configuration found')
+            exit(0)
+
+        # Log some helpful information, to file and optionally console
+        info = (
+            '    OS:..................%s %s\n' %(opsys.name_pretty,opsys.version) +
+            '    Root partition:......%s\n'    % drive.root_fs +
+            '    Root FS UUID:........%s\n'    % drive.root_uuid +
+            '    ESP Path:............%s\n'    % esp_path +
+            '    ESP Partition:.......%s\n'    % drive.esp_fs +
+            '    ESP Partition #:.....%s\n'    % drive.esp_num +
+            '    NVRAM entry #:.......%s\n'    % nvram.os_entry_index +
+            '    Boot Variable #:.....%s\n'    % nvram.order_num +
+            '    Kernel Boot Options:.%s\n'    % " ".join(kernel_opts) +
+            '    Kernel Image Path:...%s\n'    % opsys.kernel_path +
+            '    Initrd Image Path:...%s\n'    % opsys.initrd_path +
+            '    Force-overwrite:.....%s\n'    % str(force))
+
+        log.info('System information: \n\n%s' % info)
+
+        if args.print_config:
+            all_config = (
+                '   ESP Location:..................%s\n' % configuration['esp_path'] +
+                '   Management Mode:...............%s\n' % configuration['manage_mode'] +
+                '   Install Loader configuration:..%s\n' % configuration['setup_loader'] +
+                '   Configuration version:.........%s\n' % configuration['config_rev'])
+            log.info('Configuration details: \n\n%s' % all_config)
             exit(0)
 
         log.debug('Setting up boot...')
