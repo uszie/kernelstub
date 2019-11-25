@@ -177,13 +177,17 @@ class Installer():
                 os.path.join(self.entry_dir, '%s-current' % self.opsys.name))
 
 
-    def overwrite_config(self):
+    def overwrite_config(self, show_menu=False):
         self.ensure_dir(self.loader_dir)
         with open(
             '%s/loader.conf' % self.loader_dir, mode='w') as loader:
 
             default_line = 'default %s-current\n' % self.opsys.name
             loader.write(default_line)
+            
+            if show_menu:
+                show_line = 'timeout 10\n'
+                loader.write(show_line)
 
 
     def setup_stub(self, kernel_opts, simulate=False):
