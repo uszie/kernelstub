@@ -85,5 +85,7 @@ setup(name='kernelstub',
     data_files=[
         ('/etc/kernel/postinst.d', ['data/kernel/zz-kernelstub']),
         ('/etc/initramfs/post-update.d', ['data/initramfs/zz-kernelstub']),
-        ('/etc/default', ['data/config/kernelstub.SAMPLE'])]
+        ('/etc/default', ['data/config/kernelstub.SAMPLE']),
+        ('/usr/lib/kernelstub', ['data/systemd/kernelstub-hide-menu.sh']),
+        ('/lib/systemd/system', ['data/systemd/kernelstub-hide-menu.service'])]
     )
