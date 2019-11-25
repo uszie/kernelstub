@@ -166,12 +166,7 @@ class Installer():
                     overwrite = True
 
             if overwrite:
-                self.ensure_dir(self.loader_dir)
-                with open(
-                    '%s/loader.conf' % self.loader_dir, mode='w') as loader:
-
-                    default_line = 'default %s-current\n' % self.opsys.name
-                    loader.write(default_line)
+                self.overwrite_config()
 
             self.ensure_dir(self.entry_dir)
             self.make_loader_entry(
@@ -182,7 +177,13 @@ class Installer():
                 os.path.join(self.entry_dir, '%s-current' % self.opsys.name))
 
 
+    def overwrite_config(self):
+        self.ensure_dir(self.loader_dir)
+        with open(
+            '%s/loader.conf' % self.loader_dir, mode='w') as loader:
 
+            default_line = 'default %s-current\n' % self.opsys.name
+            loader.write(default_line)
 
 
     def setup_stub(self, kernel_opts, simulate=False):
