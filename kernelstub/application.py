@@ -295,6 +295,28 @@ class Kernelstub():
                 '   Configuration version:.........%s\n' % configuration['config_rev'])
             log.info('Configuration details: \n\n%s' % all_config)
             exit(0)
+        
+        # This method preserves any configuration changes that the user may have
+        # made when they choose to show the boot menu. This avoids the need to 
+        # parse the loader.conf file
+        if args.show_menu:
+            loader_path = os.path.join(installer.loader_dir, 'loader.conf')
+            loader_backup = os.path.join(
+                installer.loader_dir,
+                'old-loader.conf.backup'
+            )
+            os.rename(loader_path, loader_backup)
+            installer.overwrite_config(show_menu=True)
+            exit(0)
+        
+        if args.re_hide_boot_menu:
+            loader_path = os.path.join(installer.loader_dir, 'loader.conf')
+            loader_backup = os.path.join(
+                installer.loader_dir,
+                'old-loader.conf.backup'
+            )
+            os.rename(loader_backup, loader_path)
+            exit(0)
 
         log.debug('Setting up boot...')
 
