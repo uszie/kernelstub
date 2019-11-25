@@ -299,7 +299,8 @@ class Kernelstub():
         # This method preserves any configuration changes that the user may have
         # made when they choose to show the boot menu. This avoids the need to 
         # parse the loader.conf file
-        if args.show_menu:
+        if args.boot_menu:
+            log.info('Setting to show the boot menu on the next boot.')
             loader_path = os.path.join(installer.loader_dir, 'loader.conf')
             loader_backup = os.path.join(
                 installer.loader_dir,
@@ -310,12 +311,16 @@ class Kernelstub():
             exit(0)
         
         if args.re_hide_boot_menu:
+            log.info('Restoring previous user configuration')
             loader_path = os.path.join(installer.loader_dir, 'loader.conf')
             loader_backup = os.path.join(
                 installer.loader_dir,
                 'old-loader.conf.backup'
             )
-            os.rename(loader_backup, loader_path)
+            try:
+                os.rename(loader_backup, loader_path)
+            except FileNotFoundError:
+                log.info('No previous user configuration found')
             exit(0)
 
         log.debug('Setting up boot...')
