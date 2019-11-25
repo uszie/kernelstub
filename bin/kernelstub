@@ -52,6 +52,21 @@ def main(options=None): # Do the thing
     install_loader = parser.add_mutually_exclusive_group()
 
     parser.add_argument(
+        '-b',
+        '--boot-menu',
+        action='store_true',
+        help='Show the systemd-boot menu on the next boot'
+    )
+    # We need a way to hide the boot menu again after the system boots to the 
+    # menu, but this is of limited use to regular users. Hence we hide it from
+    # the help output.
+    parser.add_argument(
+        '--re-hide-boot-menu',
+        action='store_true',
+        help=argparse.SUPPRESS
+    )
+
+    parser.add_argument(
         '-c',
         '--dry-run',
         action = 'store_true',
