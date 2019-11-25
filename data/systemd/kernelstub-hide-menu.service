@@ -1,0 +1,8 @@
+[Unit]
+Description=Kernelstub: Restore User Configuration
+
+[Service]
+ExecStart=/usr/lib/kernelstub/kernelstub-hide-menu.sh
+
+[Install]
+WantedBy=multi-user.target
