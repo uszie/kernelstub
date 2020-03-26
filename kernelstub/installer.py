@@ -61,7 +61,7 @@ class Installer():
         self.log.info('Backing up old kernel')
 
         old_kernel_name = "%s-previous.efi" % self.opsys.kernel_name
-        old_kernel_dest = os.path.join(self.os_folder, kernel_name)
+        old_kernel_dest = os.path.join(self.os_folder, old_kernel_name)
         try:
             self.copy_files(
                 self.opsys.old_kernel_path,
@@ -74,7 +74,7 @@ class Installer():
             pass
 
         old_initrd_name = "%s-previous" % self.opsys.initrd_name
-        old_initrd_dest = os.path.join(self.os_folder, initrd_name)
+        old_initrd_dest = os.path.join(self.os_folder, old_initrd_name)
         try:
             self.copy_files(
                 self.opsys.old_initrd_path,

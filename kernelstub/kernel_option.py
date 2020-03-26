@@ -47,7 +47,7 @@ def latest_option(path):
     latest_option, latest_version = get_newest_option(opts)
     
     opts.pop(latest_version)
-    previous_option = get_newest_option(opts)
+    previous_option, latest_version = get_newest_option(opts)
 
     return latest_option, previous_option
 
