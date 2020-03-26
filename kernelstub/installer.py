@@ -60,12 +60,12 @@ class Installer():
     def backup_old(self, kernel_opts, setup_loader=False, simulate=False):
         self.log.info('Backing up old kernel')
 
-        kernel_name = "%s-previous.efi" % self.opsys.kernel_name
-        kernel_dest = os.path.join(self.os_folder, kernel_name)
+        old_kernel_name = "%s-previous.efi" % self.opsys.kernel_name
+        old_kernel_dest = os.path.join(self.os_folder, kernel_name)
         try:
             self.copy_files(
-                '%s.old' % self.opsys.kernel_path,
-                kernel_dest,
+                self.opsys.old_kernel_path,
+                old_kernel_dest,
                 simulate=simulate)
         except:
             self.log.debug('Couldn\'t back up old kernel. There\'s ' +
@@ -73,12 +73,12 @@ class Installer():
             self.old_kernel = False
             pass
 
-        initrd_name = "%s-previous" % self.opsys.initrd_name
-        initrd_dest = os.path.join(self.os_folder, initrd_name)
+        old_initrd_name = "%s-previous" % self.opsys.initrd_name
+        old_initrd_dest = os.path.join(self.os_folder, initrd_name)
         try:
             self.copy_files(
-                '%s.old' % self.opsys.initrd_path,
-                initrd_dest,
+                self.opsys.old_initrd_path,
+                old_initrd_dest,
                 simulate=simulate)
         except:
             self.log.debug('Couldn\'t back up old initrd.img. There\'s ' +
