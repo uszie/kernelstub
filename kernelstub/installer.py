@@ -24,6 +24,8 @@ terms.
 
 import os, shutil, logging
 
+from pathlib import Path
+
 class FileOpsError(Exception):
     pass
 
@@ -59,6 +61,12 @@ class Installer():
 
     def backup_old(self, kernel_opts, setup_loader=False, simulate=False):
         self.log.info('Backing up old kernel')
+
+        old_path = Path(self.opsys.old_kernel_path).resolve()
+        new_path = Path(self.opsys.kernel_path).resolve()
+        if old_path == new_path:
+            self.log.info('No old kernel found, skipping')
+            return 0
 
         old_kernel_name = "%s-previous.efi" % self.opsys.kernel_name
         old_kernel_dest = os.path.join(self.os_folder, old_kernel_name)
